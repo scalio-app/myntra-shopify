@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="text-2xl font-semibold mb-4">Images</h1>
+
+<!-- Main Tool: Local Folder (Direct to Shopify) By Folder→SKU -->
+<div class="card bg-base-100 shadow mb-6">
+  <div class="card-body">
+    <h2 class="card-title">Local Folder → SKU (Direct to Shopify)</h2>
+    <p class="text-base-content/70">Pick a local folder. We scan subfolders; the nearest folder whose name matches the SKU regex is used as the SKU. Images inside are uploaded directly to Shopify, then attached to the matching product/variant.</p>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="form-control">
+        <label class="label"><span class="label-text">Select Folder</span></label>
+        <input id="localFolderInput" class="file-input file-input-bordered w-full" type="file" webkitdirectory multiple />
+      </div>
+      <div class="form-control">
+        <label class="label"><span class="label-text">SKU Folder Regex</span></label>
+        <input id="localSkuRegex" class="input input-bordered" type="text" value="^[A-Za-z0-9-_]+$" />
+      </div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
+      <div class="form-control">
+        <label class="label"><span class="label-text">Link to Variant</span></label>
+        <select id="localOptionsLinkVariant" class="select select-bordered"><option value="false">No</option><option value="true">Yes</option></select>
+      </div>
+      <div class="form-control">
+        <label class="label"><span class="label-text">Alt From</span></label>
+        <select id="localOptionsAltFrom" class="select select-bordered"><option value="none">none</option><option value="stem">stem</option></select>
+      </div>
+      <div class="form-control">
+        <label class="label"><span class="label-text">Delay (seconds)</span></label>
+        <input id="localOptionsDelay" class="input input-bordered" type="number" step="0.1" value="0.5" />
+      </div>
+    </div>
+    <div class="card-actions justify-between mt-4">
+      <div class="text-sm text-base-content/70" id="localSummary">No files selected</div>
+      <button id="localStartBtn" class="btn btn-primary" disabled>Start Upload</button>
+    </div>
+    <progress id="localProgress" class="progress w-full mt-2" value="0" max="100" style="display:none"></progress>
+    <div class="mt-4">
+      <h3 class="font-semibold mb-2">Preview</h3>
+      <div class="overflow-x-auto"><table class="table w-full text-sm"><thead><tr><th>SKU</th><th>Count</th></tr></thead><tbody id="localPreview"></tbody></table></div>
+    </div>
+  </div>
+  </div>
+
+<!-- Advanced tools in accordions -->
+<div class="join join-vertical w-full">
+  <div class="collapse collapse-arrow join-item border border-base-300">
+    <input type="checkbox" />
+    <div class="collapse-title text-lg font-medium">By SKU (Dry-Run)</div>
+    <div class="collapse-content">
+      <form method="post" action="/ui/jobs/images/by-sku" class="space-y-3 mt-2">
+        <div class="form-control"><label class="label"><span class="label-text">Images Dir (server path)</span></label><input class="input input-bordered" type="text" name="images_dir" placeholder="/absolute/or/repo/path" required /></div>
+        <div class="form-control"><label class="label"><span class="label-text">SKU Mode</span></label><select name="sku_mode" class="select select-bordered"><option>stem</option><option>prefix</option><option>parent</option></select></div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div class="form-control"><label class="label"><span class="label-text">SKU Regex</span></label><input class="input input-bordered" type="text" name="sku_regex" /></div>
+          <div class="form-control"><label class="label"><span class="label-text">Parent Depth</span></label><input class="input input-bordered" type="number" name="parent_depth" /></div>
+        </div>
+        <div class="form-control"><label class="label"><span class="label-text">Parent Regex</span></label><input class="input input-bordered" type="text" name="parent_regex" /></div>
+        <div class="card-actions justify-end"><button type="submit" class="btn">Preview</button></div>
+      </form>
+    </div>
+  </div>
+  <div class="collapse collapse-arrow join-item border border-base-300">
+    <input type="checkbox" />
+    <div class="collapse-title text-lg font-medium">By SKU (Upload via server path)</div>
+    <div class="collapse-content">
+      <form method="post" action="/ui/jobs/images/by-sku/upload" class="space-y-3 mt-2">
+        <div class="form-control"><label class="label"><span class="label-text">Images Dir</span></label><input class="input input-bordered" type="text" name="images_dir" required /></div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div class="form-control"><label class="label"><span class="label-text">SKU Mode</span></label><select name="sku_mode" class="select select-bordered"><option>stem</option><option>prefix</option><option>parent</option></select></div>
+          <div class="form-control"><label class="label"><span class="label-text">SKU Regex</span></label><input class="input input-bordered" type="text" name="sku_regex" /></div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div class="form-control"><label class="label"><span class="label-text">Match Multiple</span></label><select name="match_multiple" class="select select-bordered"><option>first</option><option>all</option></select></div>
+          <div class="form-control"><label class="label"><span class="label-text">Link to Variant</span></label><select name="link_to_variant" class="select select-bordered"><option value="false">No</option><option value="true">Yes</option></select></div>
+          <div class="form-control"><label class="label"><span class="label-text">Alt From</span></label><select name="alt_from" class="select select-bordered"><option>none</option><option>stem</option></select></div>
+        </div>
+        <div class="form-control"><label class="label"><span class="label-text">Delay (seconds)</span></label><input class="input input-bordered" type="number" step="0.1" name="delay" value="0.5" /></div>
+        <div class="card-actions justify-end"><button type="submit" class="btn btn-primary">Start Upload</button></div>
+      </form>
+    </div>
+  </div>
+  <div class="collapse collapse-arrow join-item border border-base-300">
+    <input type="checkbox" />
+    <div class="collapse-title text-lg font-medium">Broadcast</div>
+    <div class="collapse-content">
+      <form method="post" action="/ui/jobs/images/broadcast" enctype="multipart/form-data" class="space-y-3 mt-2">
+        <div class="form-control"><label class="label"><span class="label-text">Image File</span></label><input class="file-input file-input-bordered w-full" type="file" name="file" required /></div>
+        <div class="form-control"><label class="label"><span class="label-text">Alt Text</span></label><input class="input input-bordered" type="text" name="alt_text" /></div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div class="form-control"><label class="label"><span class="label-text">Product IDs</span></label><input class="input input-bordered" type="text" name="product_ids" placeholder="Comma-separated (optional)" /></div>
+          <div class="form-control"><label class="label"><span class="label-text">Limit</span></label><input class="input input-bordered" type="number" name="limit" /></div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div class="form-control"><label class="label"><span class="label-text">Skip if Alt Exists</span></label><select class="select select-bordered" name="skip_if_alt_exists"><option value="false">No</option><option value="true">Yes</option></select></div>
+          <div class="form-control"><label class="label"><span class="label-text">Delay (seconds)</span></label><input class="input input-bordered" type="number" step="0.1" name="delay" value="0.5" /></div>
+        </div>
+        <div class="card-actions justify-end"><button type="submit" class="btn btn-primary">Broadcast</button></div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

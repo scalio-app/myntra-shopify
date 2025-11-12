@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="text-2xl font-semibold mb-4">Settings</h1>
+<form method="post" action="/ui/settings" class="card bg-base-100 shadow">
+  <div class="card-body">
+    <h2 class="card-title">Defaults</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="form-control">
+        <label class="label"><span class="label-text">Default Qty</span></label>
+        <input type="number" name="default_qty" class="input input-bordered" value="{{ s.default_qty }}" />
+      </div>
+      <div class="form-control">
+        <label class="label"><span class="label-text">Default Grams</span></label>
+        <input type="number" name="default_grams" class="input input-bordered" value="{{ s.default_grams }}" />
+      </div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
+      <div class="form-control">
+        <label class="label"><span class="label-text">LLM Enabled (default)</span></label>
+        <select name="llm_enable_default" class="select select-bordered"><option value="false" {% if not s.llm_enable_default %}selected{% endif %}>No</option><option value="true" {% if s.llm_enable_default %}selected{% endif %}>Yes</option></select>
+      </div>
+      <div class="form-control">
+        <label class="label"><span class="label-text">LLM Prefer (default)</span></label>
+        <select name="llm_prefer_default" class="select select-bordered"><option value="false" {% if not s.llm_prefer_default %}selected{% endif %}>No</option><option value="true" {% if s.llm_prefer_default %}selected{% endif %}>Yes</option></select>
+      </div>
+      <div class="form-control">
+        <label class="label"><span class="label-text">LLM Max Products (default)</span></label>
+        <input type="number" name="llm_max_products_default" class="input input-bordered" value="{{ s.llm_max_products_default }}" />
+      </div>
+    </div>
+    <div class="form-control mt-2">
+      <label class="label"><span class="label-text">Images Delay (seconds, default)</span></label>
+      <input type="number" step="0.1" name="images_delay_default" class="input input-bordered" value="{{ s.images_delay_default }}" />
+    </div>
+
+    <h2 class="card-title mt-6">Shopify Credentials</h2>
+    <p class="text-base-content/60">These are stored on the server in a local settings file.</p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="form-control">
+        <label class="label"><span class="label-text">Store Domain</span></label>
+        <input type="text" name="shopify_store" class="input input-bordered" placeholder="yourstore.myshopify.com" value="{{ s.shopify_store }}" />
+      </div>
+      <div class="form-control">
+        <label class="label"><span class="label-text">API Version</span></label>
+        <input type="text" name="shopify_api_version" class="input input-bordered" value="{{ s.shopify_api_version }}" />
+      </div>
+      <div class="form-control">
+        <label class="label"><span class="label-text">Access Token</span></label>
+        <input type="password" name="shopify_access_token" class="input input-bordered" value="{{ s.shopify_access_token }}" />
+      </div>
+    </div>
+
+    <h2 class="card-title mt-6">Brand & Vendor</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="form-control">
+        <label class="label"><span class="label-text">Brand Strip Value</span></label>
+        <input type="text" name="brand_strip_value" class="input input-bordered" placeholder="e.g., zummer" value="{{ s.brand_strip_value }}" />
+      </div>
+      <div class="form-control">
+        <label class="label"><span class="label-text">Vendor Name (Shopify)</span></label>
+        <input type="text" name="vendor_name" class="input input-bordered" value="{{ s.vendor_name }}" />
+      </div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+      <div class="form-control">
+        <label class="label"><span class="label-text">Brand Name (LLM)</span></label>
+        <input type="text" name="brand_name" class="input input-bordered" value="{{ s.brand_name }}" />
+      </div>
+      <div class="form-control">
+        <label class="label"><span class="label-text">Brand Audience (LLM)</span></label>
+        <input type="text" name="brand_audience" class="input input-bordered" value="{{ s.brand_audience }}" />
+      </div>
+    </div>
+
+    <div class="card-actions justify-between mt-4">
+      <button type="button" id="testShopifyBtn" class="btn">Test Connection</button>
+      <button type="submit" class="btn btn-primary">Save Settings</button>
+    </div>
+    <div id="shopTestResult" class="text-sm text-base-content/70 mt-2"></div>
+  </div>
+</form>
+{% endblock %}

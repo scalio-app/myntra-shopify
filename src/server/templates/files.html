@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="text-2xl font-semibold mb-4">Uploads</h1>
+
+<div class="card bg-base-100 shadow mb-6">
+  <div class="card-body">
+    <h2 class="card-title">Upload CSV/Excel</h2>
+    <form method="post" action="/ui/files" enctype="multipart/form-data" class="space-y-2">
+      <input type="file" name="file" class="file-input file-input-bordered w-full" required />
+      <button type="submit" class="btn btn-primary">Upload</button>
+      <p class="text-base-content/60">Excel (.xlsx/.xls) supported; workbooks import sheet by sheet.</p>
+    </form>
+    <div id="dropzone" class="dropzone mt-4">Drop files here to upload</div>
+  </div>
+  </div>
+
+<div class="card bg-base-100 shadow">
+  <div class="card-body">
+    <h2 class="card-title">Files</h2>
+    <div class="overflow-x-auto">
+      <table class="table w-full">
+        <thead><tr><th>ID</th><th>Name</th><th>Size</th><th>Stored</th><th>Uploaded</th></tr></thead>
+        <tbody>
+          {% for f in files %}
+          <tr>
+            <td class="font-mono text-xs">{{ f.id }}</td>
+            <td>{{ f.name }}</td>
+            <td>{{ f.size }}</td>
+            <td class="text-base-content/60">{{ f.path.split('/')[-1] }}</td>
+            <td>{{ f.created_at }}</td>
+          </tr>
+          {% else %}
+          <tr><td colspan="5" class="text-base-content/60">No files yet</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+{% if not job %}
+  <div class="alert alert-error"><span>Job not found</span></div>
+  <a class="btn mt-4" href="/ui/jobs">Back to Jobs</a>
+{% else %}
+  <div data-job-id="{{ job.id }}"></div>
+  <div class="flex items-center justify-between mb-4">
+    <h1 class="text-2xl font-semibold">Job {{ job.id }}</h1>
+    <a id="jobDownload" class="btn btn-primary btn-sm" href="{% if job.result_path and job.result_path.endswith('.csv') and job.status == 'succeeded' %}/jobs/{{ job.id }}/download{% else %}#{% endif %}">{% if job.result_path and job.result_path.endswith('.csv') and job.status == 'succeeded' %}Download CSV{% else %}Waiting...{% endif %}</a>
+  </div>
+  <div class="stats shadow w-full mb-4">
+    <div class="stat"><div class="stat-title">Status</div><div class="stat-value text-lg"><span id="jobStatus">{{ job.status }}</span></div></div>
+    <div class="stat"><div class="stat-title">Kind</div><div class="stat-value text-lg">{{ job.kind }}</div></div>
+    <div class="stat"><div class="stat-title">Counts</div><div class="stat-value text-lg"><span id="jobCounts">{{ job.counters }}</span></div></div>
+  </div>
+  <div class="card bg-base-100 shadow mb-6">
+    <div class="card-body text-sm">
+      <p>Created: {{ job.created_at }} | Started: {{ job.started_at or '-' }} | Finished: {{ job.finished_at or '-' }}</p>
+    </div>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="card bg-base-100 shadow">
+      <div class="card-body">
+        <h2 class="card-title">Params</h2>
+        <pre class="text-xs">{{ job.params }}</pre>
+      </div>
+    </div>
+    {% if data_preview %}
+    <div class="card bg-base-100 shadow">
+      <div class="card-body">
+        <h2 class="card-title">Result Preview</h2>
+        <pre id="jobPreview" class="text-xs whitespace-pre-wrap">{{ data_preview }}</pre>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+{% endif %}
+{% endblock %}

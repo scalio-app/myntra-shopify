@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="text-2xl font-semibold mb-4">New Transform</h1>
+<div class="card bg-base-100 shadow">
+  <div class="card-body">
+    <h2 class="card-title">Source & Options</h2>
+    <form method="post" action="/ui/jobs/transform" class="space-y-4">
+      <div class="form-control">
+        <label class="label"><span class="label-text">File</span></label>
+        <select name="file_id" class="select select-bordered w-full" required>
+          {% for f in files %}
+          <option value="{{ f.id }}">{{ f.name }} — {{ f.id }}</option>
+          {% else %}
+          <option disabled>No files uploaded yet</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="form-control">
+          <label class="label"><span class="label-text">Default Qty</span></label>
+          <input type="number" name="default_qty" class="input input-bordered" value="{{ defaults.qty }}" />
+        </div>
+        <div class="form-control">
+          <label class="label"><span class="label-text">Default Grams</span></label>
+          <input type="number" name="default_grams" class="input input-bordered" value="{{ defaults.grams }}" />
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="form-control">
+          <label class="label"><span class="label-text">LLM</span></label>
+          <select name="llm_enable" class="select select-bordered"><option value="false">Disabled</option><option value="true">Enabled</option></select>
+        </div>
+        <div class="form-control">
+          <label class="label"><span class="label-text">LLM Prefer</span></label>
+          <select name="llm_prefer" class="select select-bordered"><option value="false">No</option><option value="true">Yes</option></select>
+        </div>
+        <div class="form-control">
+          <label class="label"><span class="label-text">LLM Max Products</span></label>
+          <input type="number" name="llm_max_products" class="input input-bordered" value="0" />
+        </div>
+      </div>
+      <div class="form-control">
+        <label class="label"><span class="label-text">Variant Qty Blank</span></label>
+        <select name="variant_qty_blank" class="select select-bordered"><option value="false">No</option><option value="true">Yes</option></select>
+      </div>
+      <div class="card-actions justify-end">
+        <button type="submit" class="btn btn-primary">Create Transform Job</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+.python-version
+
+# OS
+.DS_Store
+
+# Env
+.env
+
+# App data (do not commit secrets/artifacts)
+data/settings.json
+data/app.sqlite3
+uploads/
+results/
+.cache/
+
+# Build
+*.log
+dist/
+build/
+
