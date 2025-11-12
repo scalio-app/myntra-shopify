@@ -11,8 +11,9 @@
   <body>
     <div class="navbar bg-base-100 border-b">
       <div class="container mx-auto">
-        <div class="flex-1">
-          <a href="/ui" class="btn btn-ghost normal-case text-xl">Myntra → Shopify</a>
+        <div class="flex-1 items-center gap-2">
+          <a href="https://scalio.app" target="_blank" rel="noopener" class="btn btn-ghost normal-case text-xl">Scalio</a>
+          <span class="hidden md:inline text-sm opacity-60">Myntra → Shopify</span>
         </div>
         <div class="flex-none">
           <ul class="menu menu-horizontal px-1">
@@ -30,6 +31,16 @@
     <main class="container mx-auto px-4 py-6">
       {% block content %}{% endblock %}
     </main>
+    <footer class="border-t bg-base-100">
+      <div class="container mx-auto px-4 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="text-sm opacity-70">Free Myntra → Shopify tool by Scalio</div>
+        <div class="text-sm">
+          <a href="https://scalio.app" target="_blank" rel="noopener" class="link">Visit Scalio</a>
+          <span class="opacity-50 mx-2">•</span>
+          <a href="/ui" class="link">App</a>
+        </div>
+      </div>
+    </footer>
     <!-- Toasts -->
     <div id="toastContainer" class="toast toast-end z-50"></div>
     <script src="/static/app.js"></script>

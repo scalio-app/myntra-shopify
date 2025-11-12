@@ -1,11 +1,13 @@
-:root{--bg:#fff;--fg:#111;--muted:#666;--line:#eee;--brand:#111}
+:root{--bg:#ffffff;--fg:#171717;--muted:#6b7280;--line:#e5e7eb;--brand:#171717}
 [data-theme="dark"]{--bg:#0b0d12;--fg:#e7e7ea;--muted:#a1a1aa;--line:#1f2430;--brand:#e7e7ea}
 *{box-sizing:border-box}
 body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--fg);background:var(--bg)}
 .container{max-width:1000px;margin:0 auto;padding:0 16px}
 .topbar{border-bottom:1px solid var(--line);padding:10px 0;background:#fafafa}
 .topbar .brand{font-weight:700}
-.topbar nav a{margin-left:16px;color:#0366d6;text-decoration:none}
+/* Navbar: translucent white, blur, subtle border */
+.navbar{background:rgba(255,252,252,0.90)!important;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(0,0,0,0.08)}
+.topbar nav a{margin-left:16px;color:#111;text-decoration:none}
 .topbar .linklike{margin-left:16px;background:none;border:0;color:#666;cursor:pointer}
 .muted{color:var(--muted)}
 .chip{display:inline-block;padding:2px 8px;border-radius:12px;background:#eee}
@@ -21,5 +23,26 @@ th,td{border:1px solid var(--line);padding:6px;text-align:left}
 .grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}
 .grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
 .card{border:1px solid var(--line);border-radius:8px;padding:12px}
-.dropzone{border:2px dashed var(--line);border-radius:8px;padding:24px;text-align:center;color:var(--muted)}
+.dropzone{border:2px dashed var(--line);border-radius:12px;padding:24px;text-align:center;color:var(--muted)}
 .dropzone.dragover{background:#f7f7f7}
+
+/* Cards: large radii, soft border and shadow */
+.card{border:1px solid rgba(0,0,0,0.06);border-radius:1.25rem;box-shadow:0 6px 20px rgba(0,0,0,0.06)}
+
+/* Buttons: rounded, subtle hover; primary uses orange→pink gradient */
+.btn{border-radius:.75rem;transition:transform .15s ease, box-shadow .15s ease}
+.btn:hover{transform:translateY(-1px);box-shadow:0 8px 18px rgba(0,0,0,0.08)}
+.btn-primary{background-image:linear-gradient(90deg,#ea580c,#db2777)!important;border:none;color:#fff}
+.btn-primary:hover{filter:brightness(1.05)}
+
+/* Footer: soft top shadow and rounded top corners */
+footer{box-shadow:0 -26px 112px 0 rgba(73,118,231,0.10)}
+footer .container{border-top-left-radius:28px;border-top-right-radius:28px}
+
+/* Headings / body color alignment */
+body{color:var(--fg);background:var(--bg)}
+h1,h2,h3{color:var(--fg)}
+.text-base-content\/60{color:rgba(23,23,23,0.60)}
+
+/* Panel gradient surfaces (light touch) */
+.surface-soft{background:linear-gradient(to bottom,#fff7ed 0%, #ffffff 60%)}

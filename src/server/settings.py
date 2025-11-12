@@ -31,6 +31,12 @@ def default_settings() -> Dict:
         "brand_name": "Zummer",
         "brand_audience": "Modern Indian women, 25–35",
         "vendor_name": "Zummer",
+        # Branding (for header/footer/UI)
+        "branding_name": "Scalio",
+        "branding_home_url": "https://scalio.app",
+        "branding_logo_url": "",
+        "branding_tagline": "Free Myntra → Shopify tool by Scalio",
+        "branding_theme": "corporate",
     }
 
 
